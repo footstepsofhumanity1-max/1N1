@@ -1105,17 +1105,49 @@
       <p>Open mint for everyone. No allowlist required — first come, first minted until supply runs out.</p>
     </div>
   </div>
-</section>
-
 <section class="countdown-section">
   <div class="section-head">
     <h2>Mint <span>Countdown</span></h2>
   </div>
   <div class="countdown-box">
-    <div class="cd-unit"><div class="cd-val">TBA</div><div class="cd-lbl">Date</div></div>
-    <div class="cd-unit"><div class="cd-val">TBA</div><div class="cd-lbl">Time</div></div>
+    <div class="cd-unit"><div class="cd-val" id="cdDays">00</div><div class="cd-lbl">Days</div></div>
+    <div class="cd-unit"><div class="cd-val" id="cdHours">00</div><div class="cd-lbl">Hours</div></div>
+    <div class="cd-unit"><div class="cd-val" id="cdMins">00</div><div class="cd-lbl">Minutes</div></div>
+    <div class="cd-unit"><div class="cd-val" id="cdSecs">00</div><div class="cd-lbl">Seconds</div></div>
   </div>
 </section>
+
+<script>
+  // Target: 30 July 2026, 9:00 PM (Bangladesh time, UTC+6)
+  const mintTarget = new Date("2026-07-30T21:00:00+06:00").getTime();
+
+  function updateCountdown(){
+    const now = new Date().getTime();
+    const diff = mintTarget - now;
+
+    if(diff <= 0){
+      document.getElementById('cdDays').textContent = '00';
+      document.getElementById('cdHours').textContent = '00';
+      document.getElementById('cdMins').textContent = '00';
+      document.getElementById('cdSecs').textContent = '00';
+      clearInterval(cdInterval);
+      return;
+    }
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const secs = Math.floor((diff % (1000*60)) / 1000);
+
+    document.getElementById('cdDays').textContent = String(days).padStart(2,'0');
+    document.getElementById('cdHours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cdMins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cdSecs').textContent = String(secs).padStart(2,'0');
+  }
+
+  updateCountdown();
+  const cdInterval = setInterval(updateCountdown, 1000);
+</script>
 
 <section class="faq-section" id="faq">
   <div class="section-head">
